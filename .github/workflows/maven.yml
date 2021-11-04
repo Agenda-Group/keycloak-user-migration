@@ -37,6 +37,6 @@ jobs:
         SONAR_TOKEN: "dfc3a63c86e79fe71dd4dccbd583f36089fd5371"
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -P code-coverage -P sonar-cloud --file pom.xml
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deply -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
