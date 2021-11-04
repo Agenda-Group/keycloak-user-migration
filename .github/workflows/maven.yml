@@ -39,5 +39,4 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with: 
-        name: assets-for-download
         path: target/keycloak-rest-provider-1.0-SNAPSHOT.jar
