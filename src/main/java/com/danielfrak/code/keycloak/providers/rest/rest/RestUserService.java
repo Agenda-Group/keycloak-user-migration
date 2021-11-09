@@ -74,4 +74,9 @@ public class RestUserService implements LegacyUserService {
         final Response response = client.validatePassword(username, new UserPasswordDto(password));
         return response.getStatus() == 200;
     }
+
+    @Override
+    public void insertUser(String id, String username, String fullName) {
+        final Response response = client.insertUser(username, new UserDto(id, username, fullName));
+    }
 }

@@ -15,4 +15,8 @@ public interface RestUserClient {
     @POST
     @Path("/{username}")
     Response validatePassword(@PathParam("username") String username, UserPasswordDto passwordDto);
+
+    @PUT
+    @Path("/{username}")
+    Response insertUser(@PathParam("username") String username, UserDto user);
 }
