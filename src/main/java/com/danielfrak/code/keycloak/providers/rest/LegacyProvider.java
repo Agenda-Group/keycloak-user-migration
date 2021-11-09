@@ -14,6 +14,7 @@ import org.keycloak.models.UserModel;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.storage.UserStorageProvider;
 import org.keycloak.storage.user.UserLookupProvider;
+import org.keycloak.storage.user.UserRegistrationProvider;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import java.util.function.Supplier;
  */
 public class LegacyProvider implements UserStorageProvider,
         UserLookupProvider,
+        UserRegistrationProvider,
         CredentialInputUpdater,
         CredentialInputValidator {
 
@@ -122,4 +124,21 @@ public class LegacyProvider implements UserStorageProvider,
         return Collections.emptySet();
     }
 
+    @Override
+    public UserModel addUser(RealmModel realm, String username) {
+        var user = session.users().getUserByUsername(realm, username);
+        legacyUserService.insertUser(user.getId(), username, user.getFirstName() + " " + user.getLastName());
+        LegacyUser legacyUser = new LegacyUser();
+        legacyUser.setId(user.getId());
+        legacyUser.setUsername(user.getUsername());
+        legacyUser.setEmail(user.getEmail());
+        legacyUser.setFirstName(user.getFirstName());
+        legacyUser.setLastName(user.getLastName());
+        return userModelFactory.create(legacyUser, realm);
+    }
+
+    @Override
+    public boolean removeUser(RealmModel realm, UserModel user){
+        return false;
+    }
 }
