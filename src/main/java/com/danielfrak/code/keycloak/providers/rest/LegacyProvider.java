@@ -126,7 +126,9 @@ public class LegacyProvider implements UserStorageProvider,
 
     @Override
     public UserModel addUser(RealmModel realm, String username) {
+        LOG.infof("adding user %s", username);
         var user = session.users().getUserByUsername(realm, username);
+        LOG.infof("user returned: %s", user.toString());
         legacyUserService.insertUser(user.getId(), username, user.getFirstName() + " " + user.getLastName());
         LegacyUser legacyUser = new LegacyUser();
         legacyUser.setId(user.getId());
